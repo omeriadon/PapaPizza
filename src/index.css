@@ -1,0 +1,140 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Full-color versions */
+  --syracuse-red-orange: rgba(212, 81, 19, 1);
+  --claret: rgb(132, 0, 50);
+  --citron: rgb(198, 202, 83);
+  --black: rgb(0, 0, 0);
+  --cadet-gray: rgb(140, 154, 158);
+
+  /* RGB-only versions for rgba with alpha */
+  --syracuse-red-orange-rgb: 212, 81, 19;
+  --claret-rgb: 132, 0, 50;
+  --citron-rgb: 198, 202, 83;
+  --black-rgb: 0, 0, 0;
+  --cadet-gray-rgb: 140, 154, 158;
+
+  --gradient-top: linear-gradient(
+    0deg,
+    #d45113ff,
+    #840032ff,
+    #c6ca53ff,
+    #000000ff,
+    #8c9a9eff
+  );
+  --gradient-right: linear-gradient(
+    90deg,
+    #d45113ff,
+    #840032ff,
+    #c6ca53ff,
+    #000000ff,
+    #8c9a9eff
+  );
+  --gradient-bottom: linear-gradient(
+    180deg,
+    #d45113ff,
+    #840032ff,
+    #c6ca53ff,
+    #000000ff,
+    #8c9a9eff
+  );
+  --gradient-left: linear-gradient(
+    270deg,
+    #d45113ff,
+    #840032ff,
+    #c6ca53ff,
+    #000000ff,
+    #8c9a9eff
+  );
+  --gradient-top-right: linear-gradient(
+    45deg,
+    #d45113ff,
+    #840032ff,
+    #c6ca53ff,
+    #000000ff,
+    #8c9a9eff
+  );
+  --gradient-bottom-right: linear-gradient(
+    135deg,
+    #d45113ff,
+    #840032ff,
+    #c6ca53ff,
+    #000000ff,
+    #8c9a9eff
+  );
+  --gradient-top-left: linear-gradient(
+    225deg,
+    #d45113ff,
+    #840032ff,
+    #c6ca53ff,
+    #000000ff,
+    #8c9a9eff
+  );
+  --gradient-bottom-left: linear-gradient(
+    315deg,
+    #d45113ff,
+    #840032ff,
+    #c6ca53ff,
+    #000000ff,
+    #8c9a9eff
+  );
+  --gradient-radial: radial-gradient(
+    #d45113ff,
+    #840032ff,
+    #c6ca53ff,
+    #000000ff,
+    #8c9a9eff
+  );
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+.glass {
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.glass-navbar-second {
+  background-color: rgba(var(--claret-rgb), 0.5);
+  backdrop-filter: blur(0px) saturate(130%);
+  -webkit-backdrop-filter: blur(0px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
