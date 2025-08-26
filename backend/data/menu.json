@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "code": "MARG",
+    "name": "Margherita",
+    "price": 18.5,
+    "image": "/static/images/tomato.png"
+  },
+  {
+    "id": 2,
+    "code": "PEPP",
+    "name": "Pepperoni",
+    "price": 21.0,
+    "image": "/static/images/tomato.png"
+  }
+]

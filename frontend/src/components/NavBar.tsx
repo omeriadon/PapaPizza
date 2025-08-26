@@ -4,7 +4,7 @@ import "./NavBar.css";
 const NavBar = () => {
   return (
     <nav className="navbar">
-      <div className="navbar-inner glass">
+      <div className="navbar-inner glass" style={{ marginBottom: "20px" }}>
         <a href="/" className="navbar-left ">
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -38,22 +38,50 @@
   font-weight: 200;
   align-items: center;
   gap: 16px;
-  color: white;
   height: 50px;
   transition: all 0.3s ease-in-out, transform 0.2s ease-in-out;
   stroke-width: 2.3;
+
+  background: linear-gradient(
+    90deg,
+    var(--left-citron),
+    var(--middle-syracuse-red-orange),
+    var(--right-claret)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@property --left-citron {
+  syntax: "<color>";
+  initial-value: white;
+  inherits: false;
+}
+@property --middle-syracuse-red-orange {
+  syntax: "<color>";
+  initial-value: white;
+  inherits: false;
+}
+@property --right-claret {
+  syntax: "<color>";
+  initial-value: white;
+  inherits: false;
 }
 
 .navbar-left:hover {
   border-radius: 200px;
   margin: 0.25rem;
-  color: var(--citron);
   font-weight: 800;
-  background-color: rgba(var(--claret-rgb), 1);
+  /* background-color: rgba(var(--claret-rgb), 1); */
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   margin-left: -0.2rem;
+  --left-citron: var(--citron);
+  --middle-syracuse-red-orange: var(--syracuse-red-orange);
+  --right-claret: var(--claret);
 }
+
 
 .navbar-right {
   display: flex;
@@ -96,7 +124,7 @@
 .navbar-right a {
   text-decoration: none;
   border-radius: 200px;
-  background-color: rgba(var(--syracuse-red-orange-rgb), 0.5);
+  background-color: rgba(var(--syracuse-red-orange-red-orange-rgb), 0.5);
   line-height: 1;
   display: flex;
   align-items: center;
@@ -114,6 +142,6 @@
   font-weight: 900;
   /* padding-left: 5px; */
   /* padding-right: 5px; */
-  background-color: rgba(var(--syracuse-red-orange-rgb), 1);
-  transform: scale(1.05);
+  background-color: rgba(var(--syracuse-red-orange-red-orange-rgb), 1);
+  transform: scale(1.02);
 }

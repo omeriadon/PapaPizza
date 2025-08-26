@@ -6,7 +6,8 @@ import NavBar from "./components/NavBar.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-      <NavBar />
+    <NavBar />
+    <div style={{ height: "60px" }}></div>
     <App />
   </StrictMode>
 );
