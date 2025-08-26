@@ -10,6 +10,7 @@
   left: 0;
   right: 0;
   z-index: 1000;
+ 
 }
 
 .navbar-inner {
@@ -19,6 +20,7 @@
   padding: 0 0.55rem;
   width: 100%;
   border-radius: 200px;
+  border: gray;
 }
 
 .navbar-left .heroLogo {
@@ -35,53 +37,40 @@
 .navbar-left {
   font-size: 2rem;
   display: flex;
-  font-weight: 200;
+  font-weight: 600;
   align-items: center;
   gap: 16px;
   height: 50px;
-  transition: all 0.3s ease-in-out, transform 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out, transform 0.2s ease-in-out,
+    background-position 0.4s ease-in-out;
   stroke-width: 2.3;
 
   background: linear-gradient(
     90deg,
-    var(--left-citron),
-    var(--middle-syracuse-red-orange),
-    var(--right-claret)
+    var(--citron),
+    var(--syracuse-red-orange),
+    var(--claret)
   );
-  -webkit-background-clip: text;
+  background-size: 200% 100%;
+  background-position: 0% 50%;
   background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-@property --left-citron {
-  syntax: "<color>";
-  initial-value: white;
-  inherits: false;
-}
-@property --middle-syracuse-red-orange {
-  syntax: "<color>";
-  initial-value: white;
-  inherits: false;
-}
-@property --right-claret {
-  syntax: "<color>";
-  initial-value: white;
-  inherits: false;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .navbar-left:hover {
   border-radius: 200px;
-  margin: 0.25rem;
-  font-weight: 800;
-  /* background-color: rgba(var(--claret-rgb), 1); */
+  font-weight: 900;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   margin-left: -0.2rem;
-  --left-citron: var(--citron);
-  --middle-syracuse-red-orange: var(--syracuse-red-orange);
-  --right-claret: var(--claret);
-}
 
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+
+  background-position: 100% 50%;
+}
 
 .navbar-right {
   display: flex;

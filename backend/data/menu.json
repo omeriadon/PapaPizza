@@ -1,16 +1,32 @@
 [
   {
-    "id": 1,
-    "code": "MARG",
-    "name": "Margherita",
-    "price": 18.5,
-    "image": "/static/images/tomato.png"
+    "id": "pepperoni",
+    "name": "Pepperoni",
+    "price": 21.0
   },
   {
-    "id": 2,
-    "code": "PEPP",
-    "name": "Pepperoni",
-    "price": 21.0,
-    "image": "/static/images/tomato.png"
+    "id": "chickenSupreme",
+    "name": "Chicken Supreme",
+    "price": 23.5
+  },
+  {
+    "id": "bbqMeatLovers",
+    "name": "BBQ Meat Lovers",
+    "price": 25.5
+  },
+  {
+    "id": "vegSupreme",
+    "name": "Veg Supreme",
+    "price": 22.5
+  },
+  {
+    "id": "hawaiian",
+    "name": "Hawaiian",
+    "price": 19.0
+  },
+  {
+    "id": "margherita",
+    "name": "Margherita",
+    "price": 18.5
   }
 ]

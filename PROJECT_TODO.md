@@ -30,7 +30,7 @@ Functional (examples to flesh out):
 - [ ] Display menu
 - [ ] Accept multiple pizza selections + quantities
 - [ ] Validate inputs (blank, non-numeric, negative, out-of-range)
-- [ ] Calculate per-item total (price \* qty)
+- [ ] Calculate per-item total (price \* quantity)
 - [ ] Compute subtotal
 - [ ] Apply 10% GST (show GST + grand total)
 - [ ] Store each order in daily sales data structure
@@ -57,16 +57,16 @@ Deliverables:
 
 Create modular pseudocode using functions & lists. Required functions (suggested names—adjust as you wish):
 
-- [ ] `get_menu()` (returns list of pizzas/prices)
+- [x] `get_menu()` (returns list of pizzas/prices)
 - [ ] `display_menu(menu)`
 - [ ] `capture_order(menu)` (loop until user done) OR form handling route
-- [ ] `calculate_line_total(price, qty)`
-- [ ] `calculate_order_subtotal(order_items)`
-- [ ] `calculate_gst(subtotal)`
-- [ ] `calculate_grand_total(subtotal)`
+- [ ] `calculate_line_total(price, quantity)`
+- [x] `calculate_order_subtotal(order_items)`
+- [x] `calculate_gst(subtotal)`
+- [x] `calculate_grand_total(subtotal)`
 - [ ] `record_order(order_items, store)`
 - [ ] `generate_daily_summary(store)`
-- [ ] `format_currency(amount)`
+- [x] `format_currency_round(amount)`
 
 Pseudocode tasks:
 
@@ -97,7 +97,7 @@ Backend structure (example): `backend/app.py`, optionally split into `services.p
 Routes (adjust names to your design):
 
 - [ ] `GET /api/menu` returns menu JSON
-- [ ] `POST /api/order` accepts order payload (list of {pizza_id, qty})
+- [ ] `POST /api/order` accepts order payload (list of {pizza_id, quantity})
 - [ ] `GET /api/summary` returns current daily summary
 - [ ] (Optional) `POST /api/reset` clears daily data (for testing)
 
@@ -105,7 +105,7 @@ Core code tasks:
 
 - [ ] Global (or module-level) data store for menu
 - [ ] Data store for daily sales (counts per pizza, total revenue ex GST)
-- [ ] Input validation logic (reject invalid pizza id / qty <=0)
+- [ ] Input validation logic (reject invalid pizza id / quantity <=0)
 - [ ] Calculation functions (GST 10%): subtotal, gst = subtotal \* 0.10, total = subtotal + gst
 - [ ] Rounding / formatting to 2 decimals (use `round(value, 2)` or `Decimal`)
 - [ ] Update daily aggregates per order
@@ -123,7 +123,7 @@ Design the table: `Case ID | Inputs | Expected Output | Actual Output | Pass/Fai
 Categories to cover:
 
 - [ ] Menu retrieval
-- [ ] Single pizza order (qty=1)
+- [ ] Single pizza order (quantity=1)
 - [ ] Multiple pizzas (different types)
 - [ ] Large quantity boundary
 - [ ] Invalid pizza index (high)
