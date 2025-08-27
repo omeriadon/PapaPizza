@@ -10,7 +10,7 @@ const NavBar = () => {
           top: 0,
           left: 0,
           right: 0,
-          height: "110px",
+          height: "100px",
           pointerEvents: "none",
           zIndex: 999,
         }} className="progressive-blur"

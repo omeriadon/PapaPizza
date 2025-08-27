@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+import "./Menu.css";
+import { motion } from "framer-motion";
+
 interface PizzaItem {
   id: string;
   name: string;
@@ -30,34 +33,26 @@ function Menu() {
   }, []);
 
   return (
-    <div style={{ padding: "1rem", fontFamily: "system-ui, sans-serif" }}>
+    <div>
       {loading && <p>Loading menu...</p>}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
-      <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+      <div className="grid-container">
         {menu.length === 0 && !loading && <p>No menu items.</p>}
         {menu.map((item) => (
-          <div
+          <motion.div
             key={item.id}
-            style={{ border: "1px solid #ccc", padding: "0.5rem", width: 180 }}
+            className="grid-item"
+            whileHover={{ scale: 1.05 }}
           >
             <img
-              src={
-                item.image
-                  ? `${API_BASE}${item.image}`
-                  : `${API_BASE}/static/images/pizzas/${item.id}.png`
-              }
+              src={`${API_BASE}/static/images/pizzas/${item.id}.png`}
               alt={item.name}
-              style={{
-                width: "100%",
-                height: 120,
-                objectFit: "cover",
-                borderRadius: 4,
-              }}
+              className="picture"
             />
             <strong>{item.name}</strong>
             <div>${Number(item.price).toFixed(2)}</div>
             <small>{item.id}</small>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
