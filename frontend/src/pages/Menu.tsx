@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import Tag from "../components/Tag";
 import type { TagProps } from "../components/Tag";
 import "./Menu.css";
-import { motion } from "framer-motion";
+import MenuItem from "../components/MenuItem";
 
 interface PizzaItem {
   id: string;
@@ -43,30 +42,7 @@ function Menu() {
       <div className="grid-container">
         {menu.length === 0 && !loading && <p>No menu items.</p>}
         {menu.map((item) => (
-          <motion.div
-            key={item.id}
-            className="grid-item"
-            whileHover={{ scale: 1.02 }}
-            layout
-          >
-            <img
-              src={`${API_BASE}/static/images/pizzas/${item.id}.png`}
-              alt={item.name}
-              className="picture"
-            />
-            <strong>{item.name}</strong>
-            <div>${Number(item.price).toFixed(2)}</div>
-            <div className="tags-container">
-              {item.tags.map((tag) => (
-                <Tag
-                  id={tag.id}
-                  key={tag.id}
-                  title={tag.title}
-                  bgColour={tag.bgColour}
-                />
-              ))}
-            </div>
-          </motion.div>
+          <MenuItem key={item.id} item={item} />
         ))}
       </div>
     </div>

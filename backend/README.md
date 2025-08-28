@@ -1,16 +1,3 @@
-# PapaPizza Backend
-
-Single-source backend (Flask) with in-memory store and current-order (cart) support.
-
-## Run (dev)
-
-python app.py (ensure Flask installed per requirements.txt)
-
-## Data
-
-Menu loaded from `data/menu.json` (ids are strings matching image filenames in `static/images/pizzas/`).
-Orders are transient (lost on restart).
-
 ## Dataclasses (store.py)
 
 LineItem(id: str, code: str, name: str, qty: int, unit_price: Decimal, line_total: Decimal)
@@ -66,9 +53,3 @@ Summary:
 "revenue_inc_gst": "decimal-str",
 "counts": { pizza_id: qty, ... }
 }
-
-## Notes
-
-- This backend is intentionally simple (no persistence). For production, add a database and auth.
-- Removed legacy duplicate service modules (orders/pricing/summary) — Store now owns all logic.
-- Adjust CORS origin in `add_cors` if your frontend dev server port changes.
