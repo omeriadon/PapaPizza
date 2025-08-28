@@ -2,31 +2,83 @@
   {
     "id": "pepperoni",
     "name": "Pepperoni",
-    "price": 21.0
+    "price": 21.0,
+    "tags": [
+      {
+        "title": "meat",
+        "bgColour": "#823138",
+        "id": 765467
+      }
+    ]
   },
   {
     "id": "chickenSupreme",
     "name": "Chicken Supreme",
-    "price": 23.5
+    "price": 23.5,
+    "tags": [
+      {
+        "title": "meat",
+        "bgColour": "#823138",
+        "id": 76543243
+      }
+    ]
   },
   {
     "id": "bbqMeatLovers",
     "name": "BBQ Meat Lovers",
-    "price": 25.5
+    "price": 25.5,
+    "tags": [
+      {
+        "title": "meat",
+        "bgColour": "#823138",
+        "id": 76567
+      },
+      {
+        "title": "bbq",
+        "bgColour": "#824e32",
+        "id": 7488
+      }
+    ]
   },
   {
     "id": "vegSupreme",
     "name": "Veg Supreme",
-    "price": 22.5
+    "price": 22.5,
+    "tags": [
+      {
+        "title": "vegetarian",
+        "bgColour": "#678244",
+        "id": 635623
+      }
+    ]
   },
   {
     "id": "hawaiian",
     "name": "Hawaiian",
-    "price": 19.0
+    "price": 19.0,
+    "tags": [
+      {
+        "title": "meat",
+        "bgColour": "#823138",
+        "id": 3256634
+      },
+      {
+        "title": "pineapple",
+        "bgColour": "#d7d278",
+        "id": 9735823
+      }
+    ]
   },
   {
     "id": "margherita",
     "name": "Margherita",
-    "price": 18.5
+    "price": 18.5,
+    "tags": [
+      {
+        "title": "vegetarian",
+        "bgColour": "#678244",
+        "id": 13487
+      }
+    ]
   }
 ]

@@ -7,13 +7,21 @@
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
   width: 100%;
 }
 
+
 .grid-item {
     padding: 1rem;
-    border: 1px solid var(--syracuse-red-orange);
+    border: 2px solid var(--syracuse-red-orange);
     border-radius: 20px;
+}
+
+.tags-container {
+  display: flex;          /* horizontal layout */
+  flex-wrap: wrap;        /* move to next line if too many */
+  gap: 0.25rem;           /* spacing between tags */
+  align-items: center;    /* vertical alignment */
 }

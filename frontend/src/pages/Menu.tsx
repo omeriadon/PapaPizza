@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-
+import Tag from "../components/Tag";
+import type { TagProps } from "../components/Tag";
 import "./Menu.css";
 import { motion } from "framer-motion";
 
@@ -7,7 +8,7 @@ interface PizzaItem {
   id: string;
   name: string;
   price: number;
-  image?: string;
+  tags: TagProps[];
 }
 
 function Menu() {
@@ -23,12 +24,15 @@ function Menu() {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
       })
-      .then((data) => {
-        // accept either { items: [...] } or direct array
+      .then((data: PizzaItem[] | { items: PizzaItem[] }) => {
         const items = Array.isArray(data) ? data : data.items ?? [];
         setMenu(items);
       })
-      .catch((e) => setError(String(e)))
+
+      .catch((e) => {
+        console.error(e);
+        setError(String(e));
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -42,7 +46,8 @@ function Menu() {
           <motion.div
             key={item.id}
             className="grid-item"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.02 }}
+            layout
           >
             <img
               src={`${API_BASE}/static/images/pizzas/${item.id}.png`}
@@ -51,7 +56,16 @@ function Menu() {
             />
             <strong>{item.name}</strong>
             <div>${Number(item.price).toFixed(2)}</div>
-            <small>{item.id}</small>
+            <div className="tags-container">
+              {item.tags.map((tag) => (
+                <Tag
+                  id={tag.id}
+                  key={tag.id}
+                  title={tag.title}
+                  bgColour={tag.bgColour}
+                />
+              ))}
+            </div>
           </motion.div>
         ))}
       </div>

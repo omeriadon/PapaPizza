@@ -1,56 +1,128 @@
-from store import GST_RATE, Store
-from decimal import Decimal, ROUND_HALF_UP
 from datetime import datetime, timezone
-from store import LineItem, Order
-from app import Q
+from decimal import Decimal
+from typing import List, Dict, Any, Tuple
+
+from store import GST_RATE, Store, LineItem, Order
 
 
+def validate_line(
+    menu_lookup: Dict[int, Dict[str, Any]], line: Dict[str, Any]
+) -> Tuple[int, int]:
+    """Validate a single raw line and return (menu_id, qty).
 
+    line must contain keys: id, qty. Raises on invalid data.
+    """
+    if "id" not in line:
+        raise KeyError("Missing field 'id' in order line")
+    if "qty" not in line:
+        raise KeyError("Missing field 'qty' in order line")
+
+    try:
+        menu_id = int(line["id"])
+    except (TypeError, ValueError):
+        raise ValueError(f"Invalid menu id: {line['id']}")
+    try:
+        qty = int(line["qty"])
+    except (TypeError, ValueError):
+        raise ValueError(f"Invalid quantity for id {line['id']}: {line['qty']}")
+
+    if qty <= 0:
+        raise ValueError(f"Quantity must be > 0 for item {menu_id}")
+    if menu_id not in menu_lookup:
+        raise KeyError(f"Menu id not found: {menu_id}")
+    return menu_id, qty
+
+
+def build_line_items(
+    raw_items: List[Dict[str, Any]], menu_lookup: Dict[int, Dict[str, Any]]
+) -> List[LineItem]:
+    """Turn raw items (id, qty) into LineItem objects (no rounding)."""
+    if not raw_items:
+        raise ValueError("Order must contain at least one line")
+    items: List[LineItem] = []
+    for raw in raw_items:
+        menu_id, qty = validate_line(menu_lookup, raw)
+        menu_entry = menu_lookup[menu_id]
+        unit_price = Decimal(str(menu_entry["price"]))  # as given in menu
+        line_total = unit_price * qty
+        items.append(
+            LineItem(
+                id=str(menu_id),
+                code=str(menu_entry.get("code", "")),
+                name=str(menu_entry.get("name", "")),
+                qty=qty,
+                unit_price=unit_price,
+                line_total=line_total,
+            )
+        )
+    return items
+
+
+def calculate_order_totals(items: List[LineItem]) -> Dict[str, Decimal]:
+    subtotal = sum((li.line_total for li in items), Decimal("0"))
+    gst = subtotal * GST_RATE
+    total = subtotal + gst
+    return {"subtotal": subtotal, "gst": gst, "total": total}
 
 
 def record_order(
-    order_id: int,
-    order_lines: list,
-    subtotal: Decimal,
-    gst: Decimal,
-    total: Decimal,
+    raw_items: List[Dict[str, Any]],
     store: Store,
-):
-    # order_lines = [{id, code, name, qty, unit_price, line_total}, ...]
-    # build LineItem and Order dataclasses and append to Store
-
-    items = []
-    for line in order_lines:
-        items.append(
-            LineItem(
-                id=int(line["id"]),
-                code=str(line.get("code", "")),
-                name=str(line.get("name", "")),
-                qty=int(line.get("qty", 0)),
-                unit_price=Decimal(str(line.get("unit_price"))).quantize(Q, ROUND_HALF_UP),
-                line_total=Decimal(str(line.get("line_total"))).quantize(Q, ROUND_HALF_UP),
-            )
-        )
-
+    menu_lookup: Dict[int, Dict[str, Any]],
+) -> Order:
+    """Validate, build, calculate and persist an order (unrounded)."""
+    items = build_line_items(raw_items, menu_lookup)
+    totals = calculate_order_totals(items)
     order = Order(
-        id=order_id,
+        id=store._next_order_id,
         items=items,
-        subtotal=subtotal.quantize(Q, ROUND_HALF_UP),
-        gst=gst.quantize(Q, ROUND_HALF_UP),
-        total=total.quantize(Q, ROUND_HALF_UP),
+        subtotal=totals["subtotal"],
+        gst=totals["gst"],
+        total=totals["total"],
         timestamp=datetime.now(timezone.utc).isoformat(),
     )
-
     store.orders.append(order)
-    store.revenue_ex_gst += subtotal
+    store.revenue_ex_gst += totals["subtotal"]
+    store._next_order_id += 1
+    return order
 
 
-def generate_daily_summary(store: Store):
-    gst_total = (store.revenue_ex_gst * GST_RATE).quantize(Q, ROUND_HALF_UP)
+def generate_daily_summary(store: Store) -> Dict[str, Any]:
+    gst_total = store.revenue_ex_gst * GST_RATE
     return {
         "orders": len(store.orders),
-        "revenue_ex_gst": store.revenue_ex_gst.quantize(Q, ROUND_HALF_UP),
+        "revenue_ex_gst": store.revenue_ex_gst,
         "gst": gst_total,
-        "revenue_inc_gst": (store.revenue_ex_gst + gst_total).quantize(Q, ROUND_HALF_UP),
+        "revenue_inc_gst": store.revenue_ex_gst + gst_total,
         "counts": store._recalculate_counts(),
+    }
+
+
+def order_to_dict(order: Order) -> Dict[str, Any]:
+    return {
+        "id": order.id,
+        "timestamp": order.timestamp,
+        "subtotal": str(order.subtotal),
+        "gst": str(order.gst),
+        "total": str(order.total),
+        "items": [
+            {
+                "id": li.id,
+                "code": li.code,
+                "name": li.name,
+                "qty": li.qty,
+                "unit_price": str(li.unit_price),
+                "line_total": str(li.line_total),
+            }
+            for li in order.items
+        ],
+    }
+
+
+def summary_to_dict(summary: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        **summary,
+        "revenue_ex_gst": str(summary["revenue_ex_gst"]),
+        "gst": str(summary["gst"]),
+        "revenue_inc_gst": str(summary["revenue_inc_gst"]),
     }
