@@ -8,20 +8,43 @@
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 1fr; /* Makes all rows the same height */
+
   gap: 1rem;
   width: 100%;
 }
 
-
 .grid-item {
-    padding: 1rem;
-    border: 2px solid var(--syracuse-red-orange);
-    border-radius: 20px;
+  padding: 1rem;
+  border: 2px solid var(--syracuse-red-orange);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+background-color: rgba(var(--syracuse-red-orange-rgb), 0.2);
+  min-height: 300px;
+}
+
+.grid-item .picture {
+  flex: 0 0 auto; /* Don't grow/shrink the image */
+  margin-bottom: auto; /* Push content below to bottom */
+}
+
+.grid-item strong {
+  flex: 0 0 auto; /* Don't grow/shrink the title */
+  margin-bottom: 0.5rem;
+}
+
+.grid-item > div:nth-child(3) {
+  /* Price div */
+  flex: 0 0 auto;
+  margin-bottom: 0.5rem;
 }
 
 .tags-container {
-  display: flex;          /* horizontal layout */
-  flex-wrap: wrap;        /* move to next line if too many */
-  gap: 0.25rem;           /* spacing between tags */
-  align-items: center;    /* vertical alignment */
+  display: flex; /* horizontal layout */
+  flex-wrap: wrap; /* move to next line if too many */
+  gap: 0.25rem; /* spacing between tags */
+  align-items: center; /* vertical alignment */
+  margin-bottom: 0;
+  margin-top: auto;
 }

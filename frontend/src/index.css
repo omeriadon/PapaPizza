@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -126,7 +128,27 @@
   backdrop-filter: blur(20px) saturate(100%) brightness(var(--glassBrightness));
   backdrop-filter: blur(20px) saturate(100%) brightness(var(--glassBrightness));
   border: 1px solid rgba(255, 255, 255, 0.25);
-  transition: backdrop-filter 0.3s ease-in-out;
+}
+
+.glass-2 {
+  backdrop-filter: blur(4px) saturate(130%);
+  backdrop-filter: blur(4px) saturate(130%);
+  transition: all 0.3s ease-in-out;
+}
+.glass-2:hover {
+  backdrop-filter: blur(10px) saturate(130%);
+  backdrop-filter: blur(10px) saturate(130%);
+}
+
+.glass-3 {
+  backdrop-filter: blur(4px) saturate(90%);
+  backdrop-filter: blur(4px) saturate(90%);
+  transition: all 0.3s ease-in-out;
+}
+
+.glass-3:hover {
+  backdrop-filter: blur(10px) saturate(90%);
+  backdrop-filter: blur(10px) saturate(90%);
 }
 
 .glass-navbar-second {
@@ -134,16 +156,4 @@
   backdrop-filter: blur(0px) saturate(130%);
   -webkit-backdrop-filter: blur(0px) saturate(130%);
   border: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-.progressive-blur {
-  mask: linear-gradient(
-    to top,
-    transparent 0%,
-    rgba(0, 0, 0, 0.2) 15%,
-    rgba(0, 0, 0, 0.5) 30%,
-    rgba(0, 0, 0, 0.8) 45%,
-    black 70%
-  );
-  backdrop-filter: blur(15px);
 }

@@ -1,20 +1,19 @@
-// import React from "react";
 import "./NavBar.css";
+import { ProgressiveBlur } from "./motion-primitives/progressive-blur";
+import { TextShimmer } from "./motion-primitives/text-shimmer";
+
 
 const NavBar = () => {
   return (
     <div>
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: "100px",
-          pointerEvents: "none",
-          zIndex: 999,
-        }} className="progressive-blur"
-      ></div>
+      <ProgressiveBlur className="navbar-blur" />
+      <TextShimmer className="font-mono text-sm" duration={1}>
+        Generating code...
+      </TextShimmer>
+      <div className="bg-green-500 text-blue-700 p-4 rounded">
+        Hello, green background!
+      </div>
+
       <nav className="navbar">
         <div className="navbar-inner glass" style={{ marginBottom: "20px" }}>
           <a href="/" className="navbar-left ">

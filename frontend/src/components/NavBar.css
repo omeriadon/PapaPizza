@@ -114,14 +114,22 @@
   transition: all 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-.navbar-right  a:last-child {
+.navbar-right a:last-child {
   transform-origin: right center;
-  
 }
 
-.navbar-right  a:hover {
-  
+.navbar-right a:hover {
   border-radius: 10px;
   font-weight: 900;
   background-color: rgba(var(--syracuse-red-orange-red-orange-rgb), 1);
+}
+
+.navbar-blur {
+  height: 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 999;
 }

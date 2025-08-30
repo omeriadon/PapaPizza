@@ -1,0 +1,59 @@
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.picture {
+  display: block;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 10;
+}
+
+.image-wrapper:hover .overlay {
+  opacity: 1;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.count {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 5px black;
+  min-width: 30px;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 100%;
+}
+
+.minus,
+.plus {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
