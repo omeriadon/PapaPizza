@@ -37,12 +37,16 @@
   font-weight: bold;
   color: white;
   text-shadow: 0 0 5px black;
-  min-width: 30px;
   text-align: center;
   padding: 0.5rem;
   border-radius: 100%;
   cursor: default;
   user-select: contain;
+  height: 55px;
+  width: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .minus,

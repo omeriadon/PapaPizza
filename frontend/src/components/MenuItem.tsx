@@ -3,8 +3,8 @@ import Tag, { type TagProps } from "./Tag";
 import { useState } from "react";
 import "./MenuItem.css";
 import { Minus, Plus } from "lucide-react";
-import { SlidingNumber } from "./motion-primitives/sliding-number";
 import { type OrderPizza } from "../pages/Order";
+import { AnimatedCounter } from "./AnimatedCounter";
 
 interface MenuItemProps {
   pizza: OrderPizza;
@@ -60,7 +60,7 @@ export default function MenuItem({
                       "current",
                       pizza.qty
                     );
-                    updateCount(pizza.id, -1); // decrease qty by 1
+                    updateCount(pizza.id, -1);
                   }}
                   className="glass-2 minus"
                 >
@@ -68,7 +68,7 @@ export default function MenuItem({
                 </button>
 
                 <div className="count glass-3">
-                  <SlidingNumber value={pizza.qty} />
+                  <AnimatedCounter value={pizza.qty} />
                 </div>
 
                 <button
@@ -80,7 +80,7 @@ export default function MenuItem({
                       "current",
                       pizza.qty
                     );
-                    updateCount(pizza.id, +1); // increase qty by 1
+                    updateCount(pizza.id, +1);
                   }}
                   className="glass-2 plus"
                 >

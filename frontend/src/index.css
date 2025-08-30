@@ -13,7 +13,7 @@ body {
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
-  font-synthesis: none;
+  font-synthesis: style weight;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -144,14 +144,14 @@ body {
 }
 
 .glass-3 {
-  backdrop-filter: blur(4px) saturate(90%);
-  backdrop-filter: blur(4px) saturate(90%);
+  backdrop-filter: blur(4px) saturate(200%);
+  backdrop-filter: blur(4px) saturate(200%);
   transition: all 0.3s ease-in-out;
 }
 
 .glass-3:hover {
-  backdrop-filter: blur(10px) saturate(90%);
-  backdrop-filter: blur(10px) saturate(90%);
+  backdrop-filter: blur(10px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(150%);
 }
 
 .glass-navbar-second {

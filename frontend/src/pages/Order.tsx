@@ -1,7 +1,7 @@
 import "./Order.css";
 import Menu from "./Menu";
 import { useState, useEffect } from "react";
-import { SlidingNumber } from "../components/motion-primitives/sliding-number";
+import { AnimatedCounter } from "../components/AnimatedCounter";
 import { type TagProps } from "../components/Tag";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -70,7 +70,11 @@ function Order() {
     console.log("[Order] updateCount called", { id, delta });
     const existing = pizzas.find((p) => p.id === id);
     const currentQty = existing?.qty ?? 0;
-    const newQty = currentQty + delta;
+    let newQty = currentQty + delta;
+
+    // clip newQty to 0–9
+    newQty = Math.max(0, Math.min(newQty, 9));
+
     console.log(
       "[Order] computed newQty",
       newQty,
@@ -81,27 +85,33 @@ function Order() {
       "exists?",
       !!existing
     );
-    if (newQty < 0) {
-      console.warn("[Order] newQty < 0; ignoring");
-      return;
-    }
+
     setPizzas((prev) => {
       let updated: OrderPizza[];
       if (existing) {
         updated = prev.map((p) => (p.id === id ? { ...p, qty: newQty } : p));
       } else {
-        // create placeholder entry (will be enriched when menu merges in Menu component)
         updated = [...prev, { id, name: id, price: 0, qty: newQty, tags: [] }];
       }
-      console.log("[Order] optimistic state", updated);
       return updated;
     });
+
     try {
       const resp = await updatePizzaItem(id, newQty);
       console.log("[Order] server ack", resp);
+      if (resp && Array.isArray(resp.items)) {
+        setPizzas(
+          resp.items.map((it: any) => ({
+            id: it.id,
+            name: it.name,
+            price: Number(it.unit_price),
+            qty: it.qty,
+            tags: [],
+          }))
+        );
+      }
     } catch (error) {
       console.error("[Order] updatePizzaItem error, rolling back", error);
-      // rollback by refetch
       getPizzaQuantities().then((items) => setPizzas(items));
     }
   };
@@ -119,16 +129,19 @@ function Order() {
               pizza.qty > 0 && (
                 <motion.div
                   key={pizza.id}
-                  className="order-item"
+                  className="order-item-container"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span>{pizza.id}</span>
-                  <span>
-                    <SlidingNumber value={pizza.qty} />
-                  </span>
+                  <p>{pizza.name || pizza.id}</p>
+                  <div>
+                    <AnimatedCounter
+                      value={pizza.qty}
+                      
+                    />
+                  </div>
                 </motion.div>
               )
           )}
