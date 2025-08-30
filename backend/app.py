@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 import json
 from pathlib import Path
 from decimal import Decimal
@@ -35,8 +35,15 @@ def add_cors(resp):
     # Allow Vite dev server (port 2007) to call API. Adjust if you change ports.
     resp.headers["Access-Control-Allow-Origin"] = "http://localhost:2007"
     resp.headers["Access-Control-Allow-Headers"] = "Content-Type"
-    resp.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
+    resp.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS,DELETE,PATCH"
     return resp
+
+
+@app.route("/api/current-order/items/<pid>", methods=["OPTIONS"])
+def options_current_item(pid: str):
+    """Handle CORS preflight for item update/delete"""
+    resp = make_response()
+    return add_cors(resp)
 
 
 @app.get("/api/health")
@@ -46,6 +53,7 @@ def health():
 
 @app.get("/api/menu")
 def menu() -> list[dict]:
+    print("[backend] /api/menu called")
     return _load_menu()
 
 
@@ -64,43 +72,60 @@ def summary():
 # -------- Current order (cart) endpoints --------
 @app.get("/api/current-order")
 def get_current_order():
+    print("[backend] GET /api/current-order -> state", store.current)
     return jsonify(store.current_to_dict(_menu_lookup()))
 
 
 @app.post("/api/current-order/items")
 def add_current_item():
     data = request.get_json(force=True, silent=True) or {}
+    print("[backend] POST /api/current-order/items payload", data)
     pid = str(data.get("id", "")).strip()
-    qty = int(data.get("qty", 1))
+    raw_qty = data.get("qty", 1)
+    try:
+        qty = int(raw_qty)
+    except Exception:
+        return jsonify(error="qty must be an integer"), 400
     if not pid:
         return jsonify(error="Missing id"), 400
+    if pid not in _menu_lookup():
+        return jsonify(error="Unknown menu id"), 404
+    if qty <= 0:
+        return jsonify(error="qty must be > 0"), 400
     try:
-        if pid not in _menu_lookup():
-            return jsonify(error="Unknown menu id"), 404
-        if qty <= 0:
-            return jsonify(error="qty must be > 0"), 400
         store.add_to_current(pid, qty)
-        return jsonify(store.current_to_dict(_menu_lookup())), 201
     except Exception as e:
         return jsonify(error=str(e)), 400
+    print("[backend] added", pid, qty, "current=", store.current)
+    return jsonify(store.current_to_dict(_menu_lookup())), 201
 
 
 @app.patch("/api/current-order/items/<pid>")
 def update_current_item(pid: str):
     data = request.get_json(force=True, silent=True) or {}
+    print(f"[backend] PATCH /api/current-order/items/{pid} payload", data)
     if "qty" not in data:
         return jsonify(error="Missing qty"), 400
-    qty = int(data.get("qty", 0))
+    raw_qty = data.get("qty")
+    if raw_qty is None:
+        return jsonify(error="qty cannot be null"), 400
+    try:
+        qty = int(raw_qty)
+    except Exception:
+        return jsonify(error="qty must be an integer"), 400
     try:
         store.set_current_item(pid, qty)
-        return jsonify(store.current_to_dict(_menu_lookup()))
     except Exception as e:
         return jsonify(error=str(e)), 400
+    print("[backend] updated", pid, qty, "current=", store.current)
+    return jsonify(store.current_to_dict(_menu_lookup()))
 
 
 @app.delete("/api/current-order/items/<pid>")
 def delete_current_item(pid: str):
+    print(f"[backend] DELETE /api/current-order/items/{pid}")
     store.remove_from_current(pid)
+    print("[backend] after delete current=", store.current)
     return jsonify(store.current_to_dict(_menu_lookup()))
 
 

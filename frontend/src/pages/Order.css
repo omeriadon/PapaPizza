@@ -13,8 +13,14 @@
 }
 
 .order-details {
+  background-color: rgba(var(--claret-rgb), 0.2);
   padding: 1rem;
   border: 4px solid var(--claret);
   border-radius: 20px;
-  margin: 0;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+
 }

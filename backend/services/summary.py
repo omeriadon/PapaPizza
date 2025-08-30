@@ -4,8 +4,8 @@ from store import Store, GST_RATE
 from services.orders import order_to_dict
 
 
-def _aggregate_counts(store: Store) -> Dict[int, int]:
-    counts: Dict[int, int] = {}
+def _aggregate_counts(store: Store) -> Dict[str, int]:
+    counts: Dict[str, int] = {}
     for o in store.orders:
         for li in o.items:
             counts[li.id] = counts.get(li.id, 0) + li.qty
@@ -35,10 +35,10 @@ def get_order(store: Store, order_id: int) -> Optional[Dict[str, Any]]:
 
 
 def build_per_pizza_sales(
-    store: Store, menu_lookup: Dict[int, Dict[str, Any]]
+    store: Store, menu_lookup: Dict[str, Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
-    qty_map: Dict[int, int] = {}
-    revenue_map: Dict[int, Decimal] = {}
+    qty_map: Dict[str, int] = {}
+    revenue_map: Dict[str, Decimal] = {}
     for o in store.orders:
         for li in o.items:
             qty_map[li.id] = qty_map.get(li.id, 0) + li.qty
@@ -62,7 +62,7 @@ def build_per_pizza_sales(
 
 def get_detailed_summary(
     store: Store,
-    menu_lookup: Dict[int, Dict[str, Any]],
+    menu_lookup: Dict[str, Dict[str, Any]],
     include_orders: bool = False,
 ) -> Dict[str, Any]:
     basic = get_basic_summary(store)

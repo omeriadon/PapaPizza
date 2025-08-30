@@ -2,24 +2,21 @@ import { motion, AnimatePresence } from "framer-motion";
 import Tag, { type TagProps } from "./Tag";
 import { useState } from "react";
 import "./MenuItem.css";
-import NumberFlow from "@number-flow/react";
 import { Minus, Plus } from "lucide-react";
+import { SlidingNumber } from "./motion-primitives/sliding-number";
+import { type OrderPizza } from "../pages/Order";
 
-type MenuItemType = {
-  id: string;
-  name: string;
-  price: number;
-  tags: TagProps[];
-};
-
-interface Props {
-  item: MenuItemType;
-  onClick?: (item: MenuItemType) => void;
+interface MenuItemProps {
+  pizza: OrderPizza;
+  updateCount: (id: string, delta: number) => void;
   className?: string;
 }
 
-export default function MenuItem({ item, onClick, className }: Props) {
-  const [count, setCount] = useState(0);
+export default function MenuItem({
+  pizza,
+  updateCount,
+  className,
+}: MenuItemProps) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -27,7 +24,6 @@ export default function MenuItem({ item, onClick, className }: Props) {
       className={`grid-item relative ${className ?? ""}`}
       whileHover={{ scale: 1.02 }}
       layout
-      onClick={() => onClick?.(item)}
     >
       <div
         className="image-wrapper"
@@ -35,8 +31,8 @@ export default function MenuItem({ item, onClick, className }: Props) {
         onMouseLeave={() => setHovered(false)}
       >
         <img
-          src={`http://localhost:1984/static/images/pizzas/${item.id}.png`}
-          alt={item.name}
+          src={`http://localhost:1984/static/images/pizzas/${pizza.id}.png`}
+          alt={pizza.name}
           className="picture"
         />
 
@@ -58,18 +54,33 @@ export default function MenuItem({ item, onClick, className }: Props) {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setCount((c) => Math.max(0, c - 1));
+                    console.log(
+                      "[MenuItem] minus click",
+                      pizza.id,
+                      "current",
+                      pizza.qty
+                    );
+                    updateCount(pizza.id, -1); // decrease qty by 1
                   }}
                   className="glass-2 minus"
                 >
                   <Minus strokeWidth={4} />
                 </button>
-                <NumberFlow className="count glass-3" value={count} />
+
+                <div className="count glass-3">
+                  <SlidingNumber value={pizza.qty} />
+                </div>
 
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setCount((c) => c + 1);
+                    console.log(
+                      "[MenuItem] plus click",
+                      pizza.id,
+                      "current",
+                      pizza.qty
+                    );
+                    updateCount(pizza.id, +1); // increase qty by 1
                   }}
                   className="glass-2 plus"
                 >
@@ -81,10 +92,10 @@ export default function MenuItem({ item, onClick, className }: Props) {
         </AnimatePresence>
       </div>
 
-      <strong>{item.name}</strong>
-      <div>${Number(item.price).toFixed(2)}</div>
+      <strong>{pizza.name}</strong>
+      <div>${Number(pizza.price).toFixed(2)}</div>
       <div className="tags-container">
-        {item.tags?.map((tag) => (
+        {pizza.tags?.map((tag: TagProps) => (
           <Tag
             key={tag.id}
             id={tag.id}
