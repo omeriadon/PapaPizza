@@ -57,15 +57,6 @@ export interface OrderPizza extends PizzaItem {
   qty: number;
 }
 
-export interface PizzaOrder {
-  pizzas: OrderPizza[]; // Array of pizzas in the order
-  buyerName: string; // Buyer's name
-  buyerEmail: string; // Buyer's email
-  gst: number; // GST amount
-  totalRevenueExcludingGst: number; // Total revenue excluding GST
-  totalPriceIncludingGst: number; // Total price including GST
-}
-
 function Order() {
   const [pizzas, setPizzas] = useState<OrderPizza[]>([]);
 
