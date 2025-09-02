@@ -10,6 +10,7 @@ from services.summary import (
     get_total_gst,
     get_total_revenue_excluding_gst,
     get_orders_list,
+    get_daily_summary,
 )
 
 app = Flask(__name__)
@@ -73,6 +74,7 @@ def summary():
         revenue_inc_gst=str(s["revenue_inc_gst"]),
         counts=s["counts"],
         orders_list=get_orders_list(store),
+        daily_summary=get_daily_summary(store),
     )
 
 

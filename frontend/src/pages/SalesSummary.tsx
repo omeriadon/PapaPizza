@@ -6,6 +6,15 @@ interface SummaryData {
   gst: string;
   revenue_ex_gst: string;
   orders_list: any[];
+  daily_summary: DailySummary[];
+}
+
+interface DailySummary {
+  date: string;
+  revenue_inc_gst: string;
+  gst: string;
+  revenue_ex_gst: string;
+  pizzas_sold: number;
 }
 
 async function fetchSummaryData(): Promise<SummaryData> {
@@ -50,7 +59,37 @@ function SalesSummary() {
       </div>
 
       <div className="orders-section">
-        <h2 className="title">Orders</h2>
+        <h2 className="title">Daily Breakdown</h2>
+        {summaryData.daily_summary && summaryData.daily_summary.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Revenue (inc. GST)</th>
+                <th>GST</th>
+                <th>Revenue (ex. GST)</th>
+                <th>Pizzas Sold</th>
+              </tr>
+            </thead>
+            <tbody>
+              {summaryData.daily_summary.map((day) => (
+                <tr key={day.date}>
+                  <td>{day.date}</td>
+                  <td>${day.revenue_inc_gst}</td>
+                  <td>${day.gst}</td>
+                  <td>${day.revenue_ex_gst}</td>
+                  <td>{day.pizzas_sold}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No daily data available.</p>
+        )}
+      </div>
+
+      <div className="orders-section">
+        <h2 className="title">All Orders</h2>
         {summaryData.orders_list.length > 0 ? (
           <table>
             <thead>
