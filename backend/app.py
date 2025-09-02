@@ -5,12 +5,6 @@ from decimal import Decimal
 from typing import Dict, Any
 
 from store import Store, GST_RATE  # single source of truth
-from services.summary import (
-    get_total_price_including_gst,
-    get_total_gst,
-    get_total_revenue_excluding_gst,
-    get_orders_list,
-)
 
 app = Flask(__name__)
 
@@ -73,28 +67,6 @@ def summary():
         revenue_inc_gst=str(s["revenue_inc_gst"]),
         counts=s["counts"],
     )
-
-
-@app.get("/api/summary/total-price-including-gst")
-def total_price_including_gst():
-    return jsonify(total_price_including_gst=str(get_total_price_including_gst(store)))
-
-
-@app.get("/api/summary/total-gst")
-def total_gst():
-    return jsonify(total_gst=str(get_total_gst(store)))
-
-
-@app.get("/api/summary/total-revenue-excluding-gst")
-def total_revenue_excluding_gst():
-    return jsonify(
-        total_revenue_excluding_gst=str(get_total_revenue_excluding_gst(store))
-    )
-
-
-@app.get("/api/summary/orders-list")
-def orders_list():
-    return jsonify(orders=get_orders_list(store))
 
 
 # -------- Current order (cart) endpoints --------

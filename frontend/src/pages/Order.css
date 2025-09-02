@@ -59,3 +59,29 @@
   justify-content: flex-end;
   align-items: center; /* Ensures vertical alignment matches the left side */
 }
+
+.order-summary {
+  margin-top: 2rem;
+}
+
+.summary-row {
+  padding: 0.7rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.total-row {
+  margin-top: 1rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.empty-cart-message {
+  text-align: center;
+  margin-top: 50px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.empty-cart-message p {
+  margin: 5px 0;
+}
