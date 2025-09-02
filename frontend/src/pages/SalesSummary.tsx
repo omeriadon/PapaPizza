@@ -1,48 +1,29 @@
 import { useEffect, useState } from "react";
 import "./SalesSummary.css";
 
-async function fetchTotalPriceIncludingGst() {
-  const response = await fetch(
-    "http://localhost:1984/api/summary/total-price-including-gst"
-  );
-  const data = await response.json();
-  return data.total_price_including_gst; // Returns a Decimal as a string
+interface SummaryData {
+  revenue_inc_gst: string;
+  gst: string;
+  revenue_ex_gst: string;
+  orders_list: any[];
 }
 
-async function fetchTotalGst() {
-  const response = await fetch("http://localhost:1984/api/summary/total-gst");
+async function fetchSummaryData(): Promise<SummaryData> {
+  const response = await fetch("http://localhost:1984/api/summary");
   const data = await response.json();
-  return data.total_gst; // Returns a Decimal as a string
-}
-
-async function fetchTotalRevenueExcludingGst() {
-  const response = await fetch(
-    "http://localhost:1984/api/summary/total-revenue-excluding-gst"
-  );
-  const data = await response.json();
-  return data.total_revenue_excluding_gst; // Returns a Decimal as a string
-}
-
-async function fetchOrdersList() {
-  const response = await fetch("http://localhost:1984/api/summary/orders-list");
-  const data = await response.json();
-  return data.orders; // Returns a list of orders with details
+  return data;
 }
 
 function SalesSummary() {
-  const [totalPriceIncludingGst, setTotalPriceIncludingGst] =
-    useState<string>("");
-  const [totalGst, setTotalGst] = useState<string>("");
-  const [totalRevenueExcludingGst, setTotalRevenueExcludingGst] =
-    useState<string>("");
-  const [orders, setOrders] = useState<any[]>([]);
+  const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
 
   useEffect(() => {
-    fetchTotalPriceIncludingGst().then(setTotalPriceIncludingGst);
-    fetchTotalGst().then(setTotalGst);
-    fetchTotalRevenueExcludingGst().then(setTotalRevenueExcludingGst);
-    fetchOrdersList().then(setOrders);
+    fetchSummaryData().then(setSummaryData);
   }, []);
+
+  if (!summaryData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="sales-summary-container">
@@ -52,25 +33,25 @@ function SalesSummary() {
           <p>
             <strong>Total Revenue (Including GST)</strong>
           </p>
-          <p className="stat">${totalPriceIncludingGst}</p>
+          <p className="stat">${summaryData.revenue_inc_gst}</p>
         </div>
         <div style={{ textAlign: "center" }}>
           <p>
             <strong>Total GST</strong>
           </p>
-          <p className="stat">${totalGst}</p>
+          <p className="stat">${summaryData.gst}</p>
         </div>
         <div style={{ textAlign: "right" }}>
           <p>
             <strong>Total Revenue (Excluding GST):</strong>{" "}
           </p>
-          <p className="stat">${totalRevenueExcludingGst}</p>
+          <p className="stat">${summaryData.revenue_ex_gst}</p>
         </div>
       </div>
 
       <div className="orders-section">
         <h2 className="title">Orders</h2>
-        {orders.length > 0 ? (
+        {summaryData.orders_list.length > 0 ? (
           <table>
             <thead>
               <tr>
@@ -83,7 +64,7 @@ function SalesSummary() {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {summaryData.orders_list.map((order) => (
                 <tr key={order.id}>
                   <td>{order.id}</td>
                   <td>{new Date(order.timestamp).toLocaleString()}</td>
