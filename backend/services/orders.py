@@ -65,28 +65,6 @@ def calculate_order_totals(items: List[LineItem]) -> Dict[str, Decimal]:
     return {"subtotal": subtotal, "gst": gst, "total": total}
 
 
-def record_order(
-    raw_items: List[Dict[str, Any]],
-    store: Store,
-    menu_lookup: Dict[int, Dict[str, Any]],
-) -> Order:
-    """Validate, build, calculate and persist an order (unrounded)."""
-    items = build_line_items(raw_items, menu_lookup)
-    totals = calculate_order_totals(items)
-    order = Order(
-        id=store._next_order_id,
-        items=items,
-        subtotal=totals["subtotal"],
-        gst=totals["gst"],
-        total=totals["total"],
-        timestamp=datetime.now(timezone.utc).isoformat(),
-    )
-    store.orders.append(order)
-    store.revenue_ex_gst += totals["subtotal"]
-    store._next_order_id += 1
-    return order
-
-
 def generate_daily_summary(store: Store) -> Dict[str, Any]:
     gst_total = store.revenue_ex_gst * GST_RATE
     return {

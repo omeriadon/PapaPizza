@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .left {
@@ -27,10 +27,35 @@
 .order-item-container {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  align-items: center;
   border-bottom: 1px solid var(--citron);
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-bottom: 0;
-  margin-bottom: 0;
+  padding: 10px 0;
+}
+
+.order-item-left {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-item-details {
+  display: flex;
+  margin: auto 0;
+  font-size: 0.8rem;
+}
+
+.order-item-details-2 {
+  display: flex;
+  margin: auto 0;
+  font-size: 0.8rem;
+}
+
+.order-item-right {
+  flex: 1;
+  text-align: right;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center; /* Ensures vertical alignment matches the left side */
 }

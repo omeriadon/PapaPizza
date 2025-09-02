@@ -1,0 +1,17 @@
+.button {
+  background-color: var(--citron);
+  color: black;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  margin-top: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s;
+  font-size: larger;
+}
+
+.button:hover {
+  background-color: rgba(var(--syracuse-red-orange-rgb), 0.8);
+  color: white;
+}

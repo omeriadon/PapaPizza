@@ -31,7 +31,7 @@ const NavBar = () => {
 
           <ul className="navbar-right ">
             <li className="label glass-navbar-second">
-              <a href="/menu">
+              {/* <a href="/menu">
                 <svg
                   version="1.1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,7 @@ const NavBar = () => {
                   </g>
                 </svg>
                 <span>Menu</span>
-              </a>
+              </a> */}
             </li>
             <li className="label glass-navbar-second">
               <a href="/order">
