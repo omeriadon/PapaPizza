@@ -4,7 +4,7 @@ from pathlib import Path
 from decimal import Decimal
 from typing import Dict, Any
 
-from store import Store, GST_RATE  # single source of truth
+from store import Store, GST_RATE
 from services.summary import (
     get_total_price_including_gst,
     get_total_gst,
@@ -26,20 +26,18 @@ def _load_menu() -> list[Dict[str, Any]]:
     if _menu_cache is None:
         with MENU_FILE.open() as f:
             data = json.load(f)
-        # build cache keyed by id
         _menu_cache = {item["id"]: item for item in data}
     return list(_menu_cache.values())
 
 
 def _menu_lookup() -> Dict[str, Dict[str, Any]]:
-    _load_menu()  # ensure cache
+    _load_menu()
     assert _menu_cache is not None
     return _menu_cache
 
 
 @app.after_request
 def add_cors(resp):
-    # Allow Vite dev server (port 2007) to call API. Adjust if you change ports.
     resp.headers["Access-Control-Allow-Origin"] = "http://localhost:2007"
     resp.headers["Access-Control-Allow-Headers"] = "Content-Type"
     resp.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS,DELETE,PATCH"
@@ -100,7 +98,6 @@ def orders_list():
     return jsonify(orders=get_orders_list(store))
 
 
-# -------- Current order (cart) endpoints --------
 @app.get("/api/current-order")
 def get_current_order():
     print("[backend] GET /api/current-order -> state", store.current)
@@ -175,10 +172,9 @@ def clear_current():
     return jsonify(store.current_to_dict(_menu_lookup()))
 
 
-# -------- Orders listing --------
 @app.get("/api/orders")
 def list_orders():
-    return jsonify(store.to_serializable()["orders"])  # list of orders
+    return jsonify(store.to_serializable()["orders"]) 
 
 
 @app.get("/api/orders/<int:oid>")
@@ -195,5 +191,4 @@ def root():
 
 
 if __name__ == "__main__":
-    # For development only
     app.run(host="0.0.0.0", port=1984, debug=True)

@@ -9,7 +9,6 @@ interface MenuProps {
 }
 
 function Menu({ pizzas, updateCount }: MenuProps) {
-  // Keep only the base menu (without qty) locally; qty comes from parent pizzas prop.
   const [baseMenu, setBaseMenu] = useState<PizzaItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,7 +34,6 @@ function Menu({ pizzas, updateCount }: MenuProps) {
       .finally(() => setLoading(false));
   }, [API_BASE]);
 
-  // Merge current quantities from parent state every render (keeps UI live)
   const merged: OrderPizza[] = useMemo(() => {
     const m = baseMenu.map((item) => {
       const match = pizzas.find((p) => p.id === item.id);

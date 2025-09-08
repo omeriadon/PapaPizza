@@ -18,7 +18,6 @@ const SubmitCartButton: React.FC = () => {
         const data = await response.json();
         alert(`Order submitted successfully! Order ID: ${data.order_id}`);
 
-        // Clear the cart after successful submission
         await fetch("http://localhost:1984/api/current-order", {
           method: "DELETE",
         });

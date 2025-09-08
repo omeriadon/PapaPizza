@@ -4,7 +4,7 @@
 
 body {
   font-family: "Montserrat", sans-serif;
-  font-size: 1.125rem; /* text-lg equivalent */
+  font-size: 1.125rem;
 
   line-height: 1.5;
   font-weight: 400;
@@ -20,14 +20,12 @@ body {
 
   padding: 3rem;
 
-  /* Full-color versions */
   --syracuse-red-orange: rgba(212, 81, 19, 1);
   --claret: rgb(132, 0, 50);
   --citron: rgb(198, 202, 83);
   --black: rgb(0, 0, 0);
   --cadet-gray: rgb(140, 154, 158);
 
-  /* RGB-only versions for rgba with alpha */
   --syracuse-red-orange-rgb: 212, 81, 19;
   --claret-rgb: 132, 0, 50;
   --citron-rgb: 198, 202, 83;

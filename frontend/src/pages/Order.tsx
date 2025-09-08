@@ -104,7 +104,6 @@ function Order() {
     const currentQty = existing?.qty ?? 0;
     let newQty = currentQty + delta;
 
-    // clip newQty to 0–9
     newQty = Math.max(0, Math.min(newQty, 9));
 
     console.log(
@@ -118,7 +117,6 @@ function Order() {
       !!existing
     );
 
-    // Optimistic update
     setOrder((prev) => {
       let updatedItems: OrderPizza[];
       if (existing) {
@@ -126,15 +124,11 @@ function Order() {
           p.id === id ? { ...p, qty: newQty } : p
         );
       } else {
-        // This path is for adding a new item not in the cart.
-        // The price is unknown here, but the server response will fix it.
         updatedItems = [
           ...prev.items,
           { id, name: id, price: 0, qty: newQty, tags: [] },
         ];
       }
-      // This optimistic update doesn't recalculate totals,
-      // but the server response will have the correct values.
       return { ...prev, items: updatedItems };
     });
 
@@ -227,10 +221,6 @@ function Order() {
             </div>
             <div
               className="submit-cart-container"
-              // initial={{ opacity: 0, y: 20 }}
-              // animate={{ opacity: 1, y: 0 }}
-              // exit={{ opacity: 0, y: 20 }}
-              // transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               <SubmitCartButton />
             </div>
